@@ -6,3 +6,15 @@
 .claude/skills
 .claude/temp/
 temp_skills/
+_ref_deskcomm/
+
+# Ambientes e segredos
+.env*.local
+.env.local
+.env
+
+# Dependências e build
+node_modules/
+.next/
+dist/
+out/
