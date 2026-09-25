@@ -1,5 +1,5 @@
 /* ==============================================================================
- * Tabs Component — Minimal Warm Greige & Sage
+ * Tabs Component — Minimalist Monochrome Luxury (Linear / Vercel style)
  * NovaCRM Design System (ReoliCode)
  * ============================================================================== */
 
@@ -17,6 +17,13 @@
   color: var(--color-text-muted, #5d594f);
 }
 
+:global([data-theme="dark"]) .list,
+:global(.dark) .list {
+  background-color: #1a1915;
+  border-color: #26241f;
+  color: #8e8b7f;
+}
+
 .trigger {
   display: inline-flex;
   align-items: center;
@@ -30,7 +37,7 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  transition: all 120ms ease-out;
+  transition: all 140ms ease-out;
   outline: none;
   user-select: none;
 }
@@ -39,9 +46,24 @@
   color: var(--color-text, #1c1a16);
 }
 
+:global([data-theme="dark"]) .trigger,
+:global(.dark) .trigger {
+  color: #8e8b7f;
+}
+
+:global([data-theme="dark"]) .trigger:hover:not(:disabled),
+:global(.dark) .trigger:hover:not(:disabled) {
+  color: #f5f4ef;
+}
+
 .trigger:focus-visible {
-  outline: 2px solid var(--color-accent-500, #67885d);
+  outline: 2px solid rgba(24, 23, 20, 0.2);
   outline-offset: 1px;
+}
+
+:global([data-theme="dark"]) .trigger:focus-visible,
+:global(.dark) .trigger:focus-visible {
+  outline-color: rgba(255, 255, 255, 0.3);
 }
 
 .trigger:disabled {
@@ -51,9 +73,16 @@
 
 .trigger[data-state="active"] {
   background-color: var(--color-surface, #ffffff);
-  color: var(--color-accent, #506d48);
+  color: var(--color-text, #1c1a16);
   font-weight: 600;
   box-shadow: 0 1px 3px rgba(28, 26, 22, 0.08);
+}
+
+:global([data-theme="dark"]) .trigger[data-state="active"],
+:global(.dark) .trigger[data-state="active"] {
+  background-color: #272620;
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
 }
 
 .content {
@@ -62,8 +91,13 @@
 }
 
 .content:focus-visible {
-  outline: 2px solid var(--color-accent-500, #67885d);
+  outline: 2px solid rgba(24, 23, 20, 0.2);
   outline-offset: 2px;
+}
+
+:global([data-theme="dark"]) .content:focus-visible,
+:global(.dark) .content:focus-visible {
+  outline-color: rgba(255, 255, 255, 0.3);
 }
 
 /* ─── List Variants ─── */
@@ -76,6 +110,11 @@
   gap: 1rem;
 }
 
+:global([data-theme="dark"]) .variantLine,
+:global(.dark) .variantLine {
+  border-bottom-color: #26241f;
+}
+
 .variantLine .trigger {
   border-radius: 0;
   border-bottom: 2px solid transparent;
@@ -85,6 +124,15 @@
 
 .variantLine .trigger[data-state="active"] {
   background: transparent;
-  border-bottom-color: var(--color-accent, #506d48);
+  border-bottom-color: #181714;
+  color: #181714;
+  box-shadow: none;
+}
+
+:global([data-theme="dark"]) .variantLine .trigger[data-state="active"],
+:global(.dark) .variantLine .trigger[data-state="active"] {
+  background: transparent;
+  border-bottom-color: #ffffff;
+  color: #ffffff;
   box-shadow: none;
 }

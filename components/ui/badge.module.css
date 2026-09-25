@@ -1,5 +1,5 @@
 /* ==============================================================================
- * Badge Component — Minimal Warm Greige & Sage
+ * Badge Component — Minimalist Monochrome Luxury (Linear / Vercel style)
  * NovaCRM Design System (ReoliCode)
  * ============================================================================== */
 
@@ -17,9 +17,16 @@
 
 /* ─── Variants ─── */
 .variantDefault {
-  background-color: var(--color-accent-soft, #e4ebe0);
-  color: var(--color-accent, #506d48);
+  background-color: #181714;
+  color: #ffffff;
   border-color: transparent;
+}
+
+:global([data-theme="dark"]) .variantDefault,
+:global(.dark) .variantDefault {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #f5f4ef;
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 .variantNeutral {
@@ -28,16 +35,35 @@
   border-color: var(--color-border, #e7e3da);
 }
 
+:global([data-theme="dark"]) .variantNeutral,
+:global(.dark) .variantNeutral {
+  background-color: #1e1d18;
+  color: #8e8b7f;
+  border-color: #33312a;
+}
+
 .variantMinimal {
   background-color: transparent;
   color: var(--color-text-muted, #5d594f);
   border-color: var(--color-border, #e7e3da);
 }
 
+:global([data-theme="dark"]) .variantMinimal,
+:global(.dark) .variantMinimal {
+  border-color: #33312a;
+  color: #8e8b7f;
+}
+
 .variantOutline {
   background-color: transparent;
   color: var(--color-text, #1c1a16);
   border-color: var(--color-border-strong, #d2cdbf);
+}
+
+:global([data-theme="dark"]) .variantOutline,
+:global(.dark) .variantOutline {
+  color: #f5f4ef;
+  border-color: #444239;
 }
 
 .variantSuccess {
@@ -58,61 +84,66 @@
   border-color: transparent;
 }
 
-.variantInfo {
-  background-color: var(--color-info-bg, rgba(74, 122, 147, 0.12));
-  color: var(--color-info-fg, #355d72);
-  border-color: transparent;
-}
-
 /* ─── Tones ─── */
 .toneSage {
-  background-color: var(--color-accent-100, #e4ebe0);
-  color: var(--color-accent-700, #41573b);
+  background-color: rgba(103, 136, 93, 0.12);
+  color: #374731;
 }
+:global([data-theme="dark"]) .toneSage,
+:global(.dark) .toneSage {
+  background-color: rgba(103, 136, 93, 0.2);
+  color: #e4ebe0;
+}
+
 .toneNeutral {
-  background-color: var(--color-neutral-100, #f3f1ec);
-  color: var(--color-neutral-700, #46433b);
-  border-color: var(--color-neutral-200, #e7e3da);
+  background-color: var(--color-surface-elevated, #f5f3ee);
+  color: var(--color-text, #1c1a16);
 }
+:global([data-theme="dark"]) .toneNeutral,
+:global(.dark) .toneNeutral {
+  background-color: #272620;
+  color: #f5f4ef;
+}
+
 .toneSubtle {
-  background-color: var(--color-neutral-50, #faf9f6);
-  color: var(--color-neutral-500, #7d786c);
+  background-color: transparent;
+  color: var(--color-text-muted, #5d594f);
 }
+
 .toneWarm {
-  background-color: #f4e0d3;
-  color: #76382a;
+  background-color: rgba(176, 90, 61, 0.12);
+  color: #5e2f25;
 }
 
-/* ─── Sizes & Densities ─── */
+/* ─── Sizes ─── */
 .sizeSm {
+  padding: 0.125rem 0.375rem;
   font-size: 0.6875rem;
-  padding: 0.125rem 0.5rem;
-}
-.sizeDefault {
-  font-size: 0.75rem;
-  padding: 0.25rem 0.625rem;
-}
-.sizeLg {
-  font-size: 0.8125rem;
-  padding: 0.375rem 0.75rem;
 }
 
-.densityCompact {
-  padding-top: 0.0625rem;
-  padding-bottom: 0.0625rem;
+.sizeDefault, .sizeMd {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+.sizeLg {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
 }
 
 /* ─── Radius ─── */
 .radiusNone { border-radius: 0; }
 .radiusSm { border-radius: 0.125rem; }
 .radiusMd { border-radius: 0.25rem; }
+.radiusLg { border-radius: 0.375rem; }
 .radiusFull { border-radius: 9999px; }
 
-/* ─── Dot Indicator ─── */
+/* ─── Dot ─── */
 .dot {
+  display: inline-block;
   width: 0.375rem;
   height: 0.375rem;
-  border-radius: 9999px;
+  border-radius: 50%;
   background-color: currentColor;
   flex-shrink: 0;
 }

@@ -1,5 +1,5 @@
 /* ==============================================================================
- * Select Component — Minimal Warm Greige & Sage
+ * Select Component — Minimalist Monochrome Luxury (Linear / Vercel style)
  * NovaCRM Design System (ReoliCode)
  * ============================================================================== */
 
@@ -22,13 +22,31 @@
   cursor: pointer;
 }
 
+:global([data-theme="dark"]) .trigger,
+:global(.dark) .trigger {
+  background-color: #141310;
+  border-color: #26241f;
+  color: #f5f4ef;
+}
+
 .trigger:hover:not(:disabled) {
   border-color: var(--color-border-strong, #d2cdbf);
 }
 
+:global([data-theme="dark"]) .trigger:hover:not(:disabled),
+:global(.dark) .trigger:hover:not(:disabled) {
+  border-color: #36342c;
+}
+
 .trigger:focus-visible {
-  border-color: var(--color-accent-500, #67885d);
-  box-shadow: 0 0 0 2px var(--color-accent-soft, #e4ebe0);
+  border-color: #181714;
+  box-shadow: 0 0 0 2px rgba(24, 23, 20, 0.12);
+}
+
+:global([data-theme="dark"]) .trigger:focus-visible,
+:global(.dark) .trigger:focus-visible {
+  border-color: #f5f4ef;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.18);
 }
 
 .trigger:disabled {
@@ -42,9 +60,19 @@
   border-color: var(--color-border, #e7e3da);
 }
 
+:global([data-theme="dark"]) .triggerMinimal,
+:global(.dark) .triggerMinimal {
+  border-color: #26241f;
+}
+
 .triggerFilled {
   background-color: var(--color-surface-elevated, #f5f3ee);
   border-color: transparent;
+}
+
+:global([data-theme="dark"]) .triggerFilled,
+:global(.dark) .triggerFilled {
+  background-color: #1a1915;
 }
 
 /* ─── Trigger Densities ─── */
@@ -74,6 +102,14 @@
   box-shadow: 0 4px 16px rgba(28, 26, 22, 0.08);
 }
 
+:global([data-theme="dark"]) .content,
+:global(.dark) .content {
+  background-color: #141310;
+  border-color: #26241f;
+  color: #f5f4ef;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
 .viewport {
   padding: 0.25rem;
 }
@@ -94,8 +130,14 @@
 }
 
 .item[data-highlighted] {
-  background-color: var(--color-accent-soft, #e4ebe0);
-  color: var(--color-accent, #506d48);
+  background-color: rgba(28, 26, 22, 0.06);
+  color: var(--color-text, #1c1a16);
+}
+
+:global([data-theme="dark"]) .item[data-highlighted],
+:global(.dark) .item[data-highlighted] {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
 }
 
 .item[data-disabled] {
@@ -121,8 +163,18 @@
   color: var(--color-text-muted, #5d594f);
 }
 
+:global([data-theme="dark"]) .label,
+:global(.dark) .label {
+  color: #8e8b7f;
+}
+
 .separator {
   margin: 0.25rem -0.25rem;
   height: 1px;
   background-color: var(--color-border, #e7e3da);
+}
+
+:global([data-theme="dark"]) .separator,
+:global(.dark) .separator {
+  background-color: #26241f;
 }

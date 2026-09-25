@@ -1,5 +1,5 @@
 /* ==============================================================================
- * TopBar Component — Minimal Warm Greige & Sage
+ * TopBar Component — Minimalist Monochrome Luxury (Linear / Vercel style)
  * NovaCRM Shell (ReoliCode)
  * ============================================================================== */
 
@@ -31,14 +31,33 @@
   -webkit-backdrop-filter: blur(8px);
 }
 
+:global([data-theme="dark"]) .variantDefault,
+:global(.dark) .variantDefault {
+  background-color: rgba(18, 17, 14, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
 .variantTranslucent {
   background-color: rgba(250, 249, 246, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
 
+:global([data-theme="dark"]) .variantTranslucent,
+:global(.dark) .variantTranslucent {
+  background-color: rgba(18, 17, 14, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
 .variantSolid {
   background-color: var(--color-surface, #ffffff);
+}
+
+:global([data-theme="dark"]) .variantSolid,
+:global(.dark) .variantSolid {
+  background-color: var(--color-surface, #141310);
 }
 
 .variantMinimal {
@@ -50,8 +69,18 @@
   background-color: #fbf8f4;
 }
 
+:global([data-theme="dark"]) .toneWarm,
+:global(.dark) .toneWarm {
+  background-color: #141310;
+}
+
 .toneSurface {
   background-color: var(--color-surface, #ffffff);
+}
+
+:global([data-theme="dark"]) .toneSurface,
+:global(.dark) .toneSurface {
+  background-color: var(--color-surface, #141310);
 }
 
 /* ─── Border Styles ─── */
@@ -59,8 +88,18 @@
   border-bottom: 1px solid var(--color-border, #e7e3da);
 }
 
+:global([data-theme="dark"]) .borderDefault,
+:global(.dark) .borderDefault {
+  border-bottom-color: var(--color-border, #26241f);
+}
+
 .borderSubtle {
   border-bottom: 1px solid rgba(231, 227, 218, 0.6);
+}
+
+:global([data-theme="dark"]) .borderSubtle,
+:global(.dark) .borderSubtle {
+  border-bottom-color: rgba(38, 36, 31, 0.8);
 }
 
 .borderNone {
