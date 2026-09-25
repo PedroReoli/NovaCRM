@@ -240,13 +240,7 @@ export function InboxFilters({ value, onChange }: Props) {
     <div className="border-b border-border bg-background">
       <div className="space-y-2 px-3 pt-3 pb-2">
         <div className="flex items-center gap-2">
-          <div className="relative min-w-0 flex-1">
-            <MagnifyingGlass
-              size={15}
-              weight="regular"
-              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-text-subtle"
-              aria-hidden
-            />
+          <div className="min-w-0 flex-1">
             {/* "última mensagem", e não "mensagem": a busca alcança apenas
                 `conversations.last_message_preview` — a ÚLTIMA mensagem, truncada em 200
                 caracteres já na ingestão (`grep -rn 'slice(0, 200)' lib/channels/` mostra onde).
@@ -254,10 +248,17 @@ export function InboxFilters({ value, onChange }: Props) {
                 3ª devolve ZERO. Alcançar o histórico é projeto próprio (índice trigram +
                 retenção + LGPD); até lá, a tela não promete o que o backend não faz. */}
             <Input
+              leftElement={
+                <MagnifyingGlass
+                  size={15}
+                  weight="regular"
+                  aria-hidden
+                />
+              }
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               placeholder={t("Buscar por nome, telefone ou última mensagem…")}
-              className="h-9 rounded-full border-transparent bg-surface-elevated pl-9 text-sm shadow-none focus-visible:border-border focus-visible:bg-background"
+              className="h-9 rounded-full border-transparent bg-surface-elevated text-sm shadow-none focus-visible:border-border focus-visible:bg-background"
               aria-label={t("Buscar conversas")}
             />
           </div>

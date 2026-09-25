@@ -186,28 +186,44 @@
 .radiusFull { border-radius: 9999px; }
 
 /* ─── Adornments ─── */
+.leftAdornment,
+.rightAdornment,
 .adornmentStart,
 .adornmentEnd {
   position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--color-text-muted, #5d594f);
   pointer-events: none;
+  z-index: 2;
 }
 
+:global([data-theme="dark"]) .leftAdornment,
+:global([data-theme="dark"]) .rightAdornment,
+:global(.dark) .leftAdornment,
+:global(.dark) .rightAdornment {
+  color: #8e8b7f;
+}
+
+.leftAdornment,
 .adornmentStart {
-  left: 0.75rem;
+  left: 0.875rem;
 }
 
+.rightAdornment,
 .adornmentEnd {
-  right: 0.75rem;
+  right: 0.875rem;
 }
 
+.hasLeftAdornment,
 .hasStartAdornment {
-  padding-left: 2.25rem !important;
+  padding-left: 2.5rem !important;
 }
 
+.hasRightAdornment,
 .hasEndAdornment {
-  padding-right: 2.25rem !important;
+  padding-right: 2.5rem !important;
 }

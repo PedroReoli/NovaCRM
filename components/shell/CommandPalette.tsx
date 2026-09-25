@@ -8,6 +8,7 @@ import { useT } from "@/hooks/i18n/useT";
 import { MagnifyingGlass } from "@/lib/ui/icons";
 import { NAV_GROUPS, searchable, type NavDestination } from "@/lib/navigation/registry";
 import { cn } from "@/lib/utils";
+import styles from "./CommandPalette.module.css";
 
 /**
  * Paleta de navegação (⌘K).
@@ -36,7 +37,7 @@ export function CommandPalette({
   const t = useT();
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="top-[15%] max-w-xl translate-y-0 gap-0 p-0">
+      <DialogContent className={cn("top-[15%] translate-y-0 gap-0 p-0", styles.dialogContent)}>
         <DialogTitle className="sr-only">{t("Buscar telas")}</DialogTitle>
         {/* O miolo é um componente à parte porque o Radix o DESMONTA ao fechar:
             busca e destaque nascem zerados na próxima abertura por construção,
@@ -113,8 +114,8 @@ function Resultados({ aoEscolher }: { aoEscolher: () => void }) {
 
   return (
     <>
-      <div className="flex items-center gap-3 border-b px-4">
-        <MagnifyingGlass size={16} aria-hidden className="shrink-0 text-muted-foreground" />
+      <div className={styles.searchHeader}>
+        <MagnifyingGlass size={18} aria-hidden className={styles.searchIcon} />
         <input
           autoFocus
           role="combobox"
@@ -125,12 +126,12 @@ function Resultados({ aoEscolher }: { aoEscolher: () => void }) {
           onChange={(e) => aoDigitar(e.target.value)}
           onKeyDown={aoTeclar}
           placeholder={t("Buscar telas do sistema…")}
-          className="h-12 w-full bg-transparent text-sm outline-hidden placeholder:text-muted-foreground"
+          className={styles.searchInput}
         />
       </div>
 
       {resultados.length === 0 ? (
-        <p className="px-4 py-8 text-center text-sm text-muted-foreground">
+        <p className={styles.emptyState}>
           {t("Nada encontrado para")} “{busca}”.
         </p>
       ) : (
@@ -138,7 +139,7 @@ function Resultados({ aoEscolher }: { aoEscolher: () => void }) {
           id="palette-resultados"
           role="listbox"
           aria-label={t("Telas")}
-          className="max-h-80 overflow-y-auto p-2"
+          className={styles.resultsList}
         >
           {resultados.map((d, i) => {
             const Icon = d.icon;
@@ -152,26 +153,36 @@ function Resultados({ aoEscolher }: { aoEscolher: () => void }) {
                 data-href={d.href}
                 onMouseEnter={() => setDestacado(i)}
                 onClick={() => navegar(d)}
-                className={cn(
-                  "flex cursor-pointer items-start gap-3 rounded-md px-3 py-2",
-                  ativo && "bg-accent text-accent-foreground",
-                )}
+                className={cn(styles.resultItem, ativo && styles.resultItemActive)}
               >
-                <Icon size={18} aria-hidden className="mt-0.5 shrink-0 text-muted-foreground" />
-                <div className="min-w-0">
+                <Icon size={18} aria-hidden className={styles.itemIcon} />
+                <div className="min-w-0 flex-1">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-sm font-medium">{t(d.label)}</span>
-                    <span className="truncate text-[11px] tracking-wider text-muted-foreground uppercase">
+                    <span className={styles.itemLabel}>{t(d.label)}</span>
+                    <span className={styles.itemGroup}>
                       {t(ROTULO_GRUPO.get(d.group) ?? "")}
                     </span>
                   </div>
-                  <p className="truncate text-xs text-muted-foreground">{t(d.description)}</p>
+                  <p className={styles.itemDescription}>{t(d.description)}</p>
                 </div>
+                {ativo && <span className={styles.kbd}>↵</span>}
               </li>
             );
           })}
         </ul>
       )}
+
+      <div className={styles.footer}>
+        <span>
+          {t("Navegar")} <kbd className={styles.kbd}>↑</kbd> <kbd className={styles.kbd}>↓</kbd>
+        </span>
+        <span>
+          {t("Selecionar")} <kbd className={styles.kbd}>↵</kbd>
+        </span>
+        <span>
+          {t("Fechar")} <kbd className={styles.kbd}>esc</kbd>
+        </span>
+      </div>
     </>
   );
 }
