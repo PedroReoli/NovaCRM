@@ -1,0 +1,54 @@
+.container {
+  border-top: 1px solid var(--border);
+  background-color: var(--secondary);
+  padding: 0.75rem 1rem;
+}
+
+.description {
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.photoList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.photoItem {
+  width: 7rem;
+}
+
+.image {
+  height: 7rem;
+  width: 7rem;
+  border-radius: 0.375rem;
+  border: 1px solid var(--border);
+  object-fit: cover;
+}
+
+.placeholder {
+  display: flex;
+  height: 7rem;
+  width: 7rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.375rem;
+  border: 1px solid var(--border);
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.photoActions {
+  margin-top: 0.25rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.bottomBar {
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
