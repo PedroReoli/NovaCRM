@@ -1,0 +1,56 @@
+.card {
+  padding: var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.titulo {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.subtitulo {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  line-height: 1.4;
+}
+
+.gradeCampos {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .gradeCampos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.seletor {
+  height: 2.25rem;
+  width: 100%;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  padding: 0 var(--space-2);
+  font-size: 0.875rem;
+  outline: none;
+}
+
+.seletor:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

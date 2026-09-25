@@ -1,0 +1,68 @@
+.card {
+  padding: var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.titulo {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.seletor {
+  height: 2.25rem;
+  width: 100%;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  padding: 0 var(--space-2);
+  font-size: 0.875rem;
+  outline: none;
+}
+
+.aviso {
+  font-size: 0.875rem;
+  color: var(--color-warning-fg, #f59e0b);
+}
+
+.grupoFieldSet {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.legenda {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.textoAjuda {
+  font-size: 0.8125rem;
+  color: var(--muted-foreground);
+  line-height: 1.4;
+}
+
+.opcaoLinha {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.875rem;
+  color: var(--text);
+  cursor: pointer;
+}
