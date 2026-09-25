@@ -23,6 +23,7 @@ export function InterfaceRefresh({
   const epoch = useRef(0);
   const inFlight = useRef(false);
   const pending = useRef(false);
+  const lastCheck = useRef(0);
   useEffect(() => {
     const generation = ++epoch.current;
     inFlight.current = false;
@@ -31,8 +32,11 @@ export function InterfaceRefresh({
       epoch.current = generation + 1;
     };
   }, [userId, org?.orgId, support]);
-  const check = useCallback(async () => {
+  const check = useCallback(async (forced = false) => {
     if (!org || support || isDocumentHidden()) return;
+    const now = Date.now();
+    if (!forced && now - lastCheck.current < 30_000) return;
+    lastCheck.current = now;
     if (inFlight.current) {
       pending.current = true;
       return;
@@ -76,7 +80,7 @@ export function InterfaceRefresh({
       filter: `user_id=eq.${userId}`,
     },
     onChange: () => {
-      void check();
+      void check(true);
     },
   });
   useEffect(() => {

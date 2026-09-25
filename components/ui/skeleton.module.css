@@ -1,0 +1,21 @@
+/* ==============================================================================
+ * Skeleton Component — Minimal Warm Greige & Sage
+ * NovaCRM Design System (ReoliCode)
+ * ============================================================================== */
+
+.skeleton {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  background-color: var(--color-surface-elevated, #f5f3ee);
+  border-radius: 0.375rem;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+.radiusNone { border-radius: 0; }
+.radiusSm { border-radius: 0.125rem; }
+.radiusMd { border-radius: 0.375rem; }
+.radiusLg { border-radius: 0.5rem; }
+.radiusFull { border-radius: 9999px; }

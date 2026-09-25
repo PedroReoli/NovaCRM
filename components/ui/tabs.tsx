@@ -1,65 +1,70 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import * as TabsPrimitive from "@radix-ui/react-tabs"
+import * as React from "react";
+import * as TabsPrimitive from "@radix-ui/react-tabs";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
+import styles from "./tabs.module.css";
 
-const Tabs = TabsPrimitive.Root
+const Tabs = TabsPrimitive.Root;
+
+export interface TabsListProps
+  extends React.ComponentPropsWithoutRef<typeof TabsPrimitive.List> {
+  variant?: "default" | "line";
+  customStyle?: React.CSSProperties;
+}
 
 const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
->(({ className, ...props }, ref) => (
+  TabsListProps
+>(({ className, variant = "default", customStyle, style, ...props }, ref) => (
   <TabsPrimitive.List
     ref={ref}
+    style={{ ...customStyle, ...style }}
     className={cn(
-      // `max-w-full overflow-x-auto` porque uma fila de abas cresce com o
-      // produto e nunca encolhe: no detalhe do agente são SEIS, e em 390px de
-      // largura a fila mede 814px — a página inteira passava a rolar na
-      // horizontal, que é o pior jeito de uma tela quebrar (o conteúdo some
-      // para o lado e nada indica que existe). Medido antes/depois com
-      // `documentElement.scrollWidth - clientWidth`.
-      //
-      // Aqui e não na tela do agente de propósito: TODA `TabsList` do app tem a
-      // mesma fragilidade, e consertar só onde eu esbarrei deixaria as irmãs
-      // quebradas com um álibi de "já foi tratado".
-      "inline-flex h-9 max-w-full items-center justify-center overflow-x-auto rounded-lg bg-muted p-1 text-muted-foreground",
-      className
+      styles.list,
+      variant === "line" && styles.variantLine,
+      className,
     )}
     {...props}
   />
-))
-TabsList.displayName = TabsPrimitive.List.displayName
+));
+TabsList.displayName = TabsPrimitive.List.displayName;
+
+export interface TabsTriggerProps
+  extends React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger> {
+  customStyle?: React.CSSProperties;
+}
 
 const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
->(({ className, ...props }, ref) => (
+  TabsTriggerProps
+>(({ className, customStyle, style, ...props }, ref) => (
   <TabsPrimitive.Trigger
     ref={ref}
-    className={cn(
-      "inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
-      className
-    )}
+    style={{ ...customStyle, ...style }}
+    className={cn(styles.trigger, className)}
     {...props}
   />
-))
-TabsTrigger.displayName = TabsPrimitive.Trigger.displayName
+));
+TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
+
+export interface TabsContentProps
+  extends React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content> {
+  customStyle?: React.CSSProperties;
+}
 
 const TabsContent = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
->(({ className, ...props }, ref) => (
+  TabsContentProps
+>(({ className, customStyle, style, ...props }, ref) => (
   <TabsPrimitive.Content
     ref={ref}
-    className={cn(
-      "mt-2 ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-      className
-    )}
+    style={{ ...customStyle, ...style }}
+    className={cn(styles.content, className)}
     {...props}
   />
-))
-TabsContent.displayName = TabsPrimitive.Content.displayName
+));
+TabsContent.displayName = TabsPrimitive.Content.displayName;
 
-export { Tabs, TabsList, TabsTrigger, TabsContent }
+export { Tabs, TabsList, TabsTrigger, TabsContent };

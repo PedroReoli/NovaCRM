@@ -1,0 +1,53 @@
+/* ==============================================================================
+ * AppShell Layout — Minimal Warm Greige & Sage
+ * NovaCRM (ReoliCode)
+ * ============================================================================== */
+
+.shell {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--color-bg, #faf9f6);
+  color: var(--color-text, #1c1a16);
+}
+
+.sidebarWrapper {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .sidebarWrapper {
+    display: block;
+  }
+}
+
+.contentWrapper {
+  display: flex;
+  min-height: 100vh;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+  overflow: auto;
+  transition: padding 150ms ease;
+}
+
+/* ─── Main Padding Densities ─── */
+.paddingDefault {
+  padding: 1.5rem;
+}
+
+.paddingCompact {
+  padding: 1rem;
+}
+
+.paddingSpacious {
+  padding: 2.5rem;
+}
+
+.paddingNone {
+  padding: 0;
+}

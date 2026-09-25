@@ -1,24 +1,69 @@
 "use client";
+
+import * as React from "react";
+import { cn } from "@/lib/utils";
+import styles from "./TopBar.module.css";
 import { AlertsBell } from "./AlertsBell";
 import { MobileSidebar } from "./MobileSidebar";
 import { TenantSwitcher } from "./TenantSwitcher";
 import { UserMenu } from "./UserMenu";
 import { SearchTrigger } from "./SearchTrigger";
 
-export function TopBar() {
+export interface TopBarProps extends React.HTMLAttributes<HTMLElement> {
+  variant?: "default" | "translucent" | "solid" | "minimal";
+  tone?: "default" | "warm" | "surface";
+  borderStyle?: "default" | "subtle" | "none";
+  density?: "compact" | "default" | "spacious";
+  customStyle?: React.CSSProperties;
+}
+
+export function TopBar({
+  className,
+  variant = "default",
+  tone = "default",
+  borderStyle = "default",
+  density = "default",
+  customStyle,
+  style,
+  children,
+  ...props
+}: TopBarProps) {
   return (
-    <header className="sticky top-0 z-20 flex h-14 items-center justify-between gap-2 border-b bg-background/95 px-3 backdrop-blur md:gap-4 md:px-6">
-      <div className="flex min-w-0 items-center gap-2">
-        <MobileSidebar />
-        <TenantSwitcher />
-      </div>
-      <div className="flex min-w-0 flex-1 justify-center md:max-w-md">
-        <SearchTrigger />
-      </div>
-      <div className="flex shrink-0 items-center gap-2">
-        <AlertsBell />
-        <UserMenu />
-      </div>
+    <header
+      style={{ ...customStyle, ...style }}
+      className={cn(
+        styles.topbar,
+        variant === "default" && styles.variantDefault,
+        variant === "translucent" && styles.variantTranslucent,
+        variant === "solid" && styles.variantSolid,
+        variant === "minimal" && styles.variantMinimal,
+        tone === "warm" && styles.toneWarm,
+        tone === "surface" && styles.toneSurface,
+        borderStyle === "default" && styles.borderDefault,
+        borderStyle === "subtle" && styles.borderSubtle,
+        borderStyle === "none" && styles.borderNone,
+        density === "compact" && styles.densityCompact,
+        density === "default" && styles.densityDefault,
+        density === "spacious" && styles.densitySpacious,
+        className,
+      )}
+      {...props}
+    >
+      {children ?? (
+        <>
+          <div className={styles.leftSlot}>
+            <MobileSidebar />
+            <TenantSwitcher />
+          </div>
+          <div className={styles.centerSlot}>
+            <SearchTrigger />
+          </div>
+          <div className={styles.rightSlot}>
+            <AlertsBell />
+            <UserMenu />
+          </div>
+        </>
+      )}
     </header>
   );
 }

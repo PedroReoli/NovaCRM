@@ -1,0 +1,109 @@
+/* ==============================================================================
+ * TopBar Component — Minimal Warm Greige & Sage
+ * NovaCRM Shell (ReoliCode)
+ * ============================================================================== */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+@media (min-width: 768px) {
+  .topbar {
+    gap: 1rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* ─── Variants ─── */
+.variantDefault {
+  background-color: rgba(250, 249, 246, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.variantTranslucent {
+  background-color: rgba(250, 249, 246, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.variantSolid {
+  background-color: var(--color-surface, #ffffff);
+}
+
+.variantMinimal {
+  background-color: transparent;
+}
+
+/* ─── Tones ─── */
+.toneWarm {
+  background-color: #fbf8f4;
+}
+
+.toneSurface {
+  background-color: var(--color-surface, #ffffff);
+}
+
+/* ─── Border Styles ─── */
+.borderDefault {
+  border-bottom: 1px solid var(--color-border, #e7e3da);
+}
+
+.borderSubtle {
+  border-bottom: 1px solid rgba(231, 227, 218, 0.6);
+}
+
+.borderNone {
+  border-bottom: none;
+}
+
+/* ─── Densities ─── */
+.densityCompact {
+  height: 3rem;
+}
+
+.densityDefault {
+  height: 3.5rem;
+}
+
+.densitySpacious {
+  height: 4rem;
+}
+
+/* ─── Slots ─── */
+.leftSlot {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.centerSlot {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .centerSlot {
+    max-width: 28rem;
+  }
+}
+
+.rightSlot {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.5rem;
+}

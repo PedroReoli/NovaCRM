@@ -1,0 +1,31 @@
+/* ==============================================================================
+ * Separator Component — Minimal Warm Greige & Sage
+ * NovaCRM Design System (ReoliCode)
+ * ============================================================================== */
+
+.separator {
+  flex-shrink: 0;
+  background-color: var(--color-border, #e7e3da);
+}
+
+.horizontal {
+  height: 1px;
+  width: 100%;
+}
+
+.vertical {
+  height: 100%;
+  width: 1px;
+}
+
+.toneSubtle {
+  background-color: rgba(231, 227, 218, 0.5);
+}
+
+.toneStrong {
+  background-color: var(--color-border-strong, #d2cdbf);
+}
+
+.toneSage {
+  background-color: var(--color-accent-soft, #e4ebe0);
+}

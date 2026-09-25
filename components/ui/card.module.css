@@ -1,0 +1,115 @@
+/* ==============================================================================
+ * Card Component — Minimal Warm Greige & Sage
+ * NovaCRM Design System (ReoliCode)
+ * ============================================================================== */
+
+.card {
+  background-color: var(--color-surface, #ffffff);
+  color: var(--color-text, #1c1a16);
+  border: 1px solid var(--color-border, #e7e3da);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+  overflow: hidden;
+}
+
+/* ─── Variants ─── */
+.variantDefault {
+  background-color: var(--color-surface, #ffffff);
+  border-color: var(--color-border, #e7e3da);
+}
+
+.variantElevated {
+  background-color: var(--color-surface-elevated, #f5f3ee);
+  border-color: var(--color-border, #e7e3da);
+  box-shadow: 0 4px 12px rgba(28, 26, 22, 0.04);
+}
+
+.variantFlat {
+  background-color: var(--color-surface, #ffffff);
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.variantMinimal {
+  background-color: transparent;
+  border-color: var(--color-border, #e7e3da);
+  box-shadow: none;
+}
+
+.variantBordered {
+  background-color: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border-strong, #d2cdbf);
+}
+
+/* ─── Tones ─── */
+.toneSage {
+  border-color: var(--color-accent-200, #c8d6c1);
+}
+.toneNeutral {
+  border-color: var(--color-neutral-300, #d2cdbf);
+}
+.toneWarm {
+  border-color: #e6dccb;
+  background-color: #fbf8f4;
+}
+
+/* ─── Radius ─── */
+.radiusNone { border-radius: 0; }
+.radiusSm { border-radius: 0.25rem; }
+.radiusMd { border-radius: 0.5rem; }
+.radiusLg { border-radius: 0.75rem; }
+
+/* ─── Interactive ─── */
+.interactive {
+  cursor: pointer;
+}
+.interactive:hover {
+  border-color: var(--color-accent-400, #82a077);
+  box-shadow: 0 4px 16px rgba(28, 26, 22, 0.06);
+  transform: translateY(-1px);
+}
+
+/* ─── Card Header ─── */
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding: 1.5rem;
+}
+.headerCompact { padding: 1rem; }
+.headerSpacious { padding: 2rem; }
+
+/* ─── Card Title ─── */
+.title {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--color-text, #1c1a16);
+}
+
+/* ─── Card Description ─── */
+.description {
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--color-text-muted, #5d594f);
+}
+
+/* ─── Card Content ─── */
+.content {
+  padding: 1.5rem;
+  padding-top: 0;
+}
+.contentCompact { padding: 1rem; padding-top: 0; }
+.contentSpacious { padding: 2rem; padding-top: 0; }
+
+/* ─── Card Footer ─── */
+.footer {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  padding-top: 0;
+}
+.footerCompact { padding: 1rem; padding-top: 0; }
+.footerSpacious { padding: 2rem; padding-top: 0; }

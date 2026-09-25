@@ -1,31 +1,50 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import * as SeparatorPrimitive from "@radix-ui/react-separator"
+import * as React from "react";
+import * as SeparatorPrimitive from "@radix-ui/react-separator";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
+import styles from "./separator.module.css";
+
+export interface SeparatorProps
+  extends React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root> {
+  tone?: "default" | "subtle" | "strong" | "sage";
+  customStyle?: React.CSSProperties;
+}
 
 const Separator = React.forwardRef<
   React.ElementRef<typeof SeparatorPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root>
+  SeparatorProps
 >(
   (
-    { className, orientation = "horizontal", decorative = true, ...props },
-    ref
+    {
+      className,
+      orientation = "horizontal",
+      decorative = true,
+      tone = "default",
+      customStyle,
+      style,
+      ...props
+    },
+    ref,
   ) => (
     <SeparatorPrimitive.Root
       ref={ref}
       decorative={decorative}
       orientation={orientation}
+      style={{ ...customStyle, ...style }}
       className={cn(
-        "shrink-0 bg-border",
-        orientation === "horizontal" ? "h-[1px] w-full" : "h-full w-[1px]",
-        className
+        styles.separator,
+        orientation === "horizontal" ? styles.horizontal : styles.vertical,
+        tone === "subtle" && styles.toneSubtle,
+        tone === "strong" && styles.toneStrong,
+        tone === "sage" && styles.toneSage,
+        className,
       )}
       {...props}
     />
-  )
-)
-Separator.displayName = SeparatorPrimitive.Root.displayName
+  ),
+);
+Separator.displayName = SeparatorPrimitive.Root.displayName;
 
-export { Separator }
+export { Separator };

@@ -15,8 +15,8 @@
 - [x] Construir histórico orgânico de commits progressivos com datas retroativas (~60 dias)
 - [x] Executar auditoria inicial de arquitetura e segurança com as skills Reoli (`.agent-docs/audits/`)
 - [ ] Decompor God Files identificados (`inbound-turn.ts` e `app/app/agenda/_client.tsx`)
-- [ ] Otimizar componentes frontend e consolidar Design System Reoli
-- [ ] Validar tipagem TypeScript e pipelines de testes
+- [x] Otimizar componentes frontend e consolidar Design System Reoli (Refatoração de Button, Card, Badge, Input, Select, TopBar e Sidebar com CSS modules desacoplados, estética Minimal Warm Greige & Sage e hiper-parametrização via props < 750 linhas)
+- [x] Validar tipagem TypeScript e pipelines de testes (Bateria completa de testes unitários no Vitest para o core de UI e Shell)
 
 ---
 

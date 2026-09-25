@@ -1,0 +1,92 @@
+/* ==============================================================================
+ * Switch Component — Minimal Warm Greige & Sage
+ * NovaCRM Design System (ReoliCode)
+ * ============================================================================== */
+
+.root {
+  display: inline-flex;
+  flex-shrink: 0;
+  cursor: pointer;
+  align-items: center;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  transition: background-color 150ms ease, box-shadow 150ms ease;
+  outline: none;
+  background-color: var(--color-border-strong, #d2cdbf);
+  user-select: none;
+}
+
+.root:focus-visible {
+  outline: 2px solid var(--color-accent-500, #67885d);
+  outline-offset: 2px;
+}
+
+.root:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.root[data-state="checked"] {
+  background-color: var(--color-accent, #506d48);
+}
+
+/* ─── Tones ─── */
+.toneSage[data-state="checked"] {
+  background-color: var(--color-accent, #506d48);
+}
+
+.toneNeutral[data-state="checked"] {
+  background-color: var(--color-neutral-800, #2e2c26);
+}
+
+.toneWarm[data-state="checked"] {
+  background-color: #b05a3d;
+}
+
+/* ─── Sizes ─── */
+.sizeSm {
+  height: 1.125rem;
+  width: 2rem;
+}
+.sizeSm .thumb {
+  height: 0.875rem;
+  width: 0.875rem;
+}
+.sizeSm[data-state="checked"] .thumb {
+  transform: translateX(0.875rem);
+}
+
+.sizeDefault {
+  height: 1.375rem;
+  width: 2.5rem;
+}
+.sizeDefault .thumb {
+  height: 1.125rem;
+  width: 1.125rem;
+}
+.sizeDefault[data-state="checked"] .thumb {
+  transform: translateX(1.125rem);
+}
+
+.sizeLg {
+  height: 1.625rem;
+  width: 3rem;
+}
+.sizeLg .thumb {
+  height: 1.375rem;
+  width: 1.375rem;
+}
+.sizeLg[data-state="checked"] .thumb {
+  transform: translateX(1.375rem);
+}
+
+/* ─── Thumb ─── */
+.thumb {
+  pointer-events: none;
+  display: block;
+  border-radius: 9999px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateX(0);
+}

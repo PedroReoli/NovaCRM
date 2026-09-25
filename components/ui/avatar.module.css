@@ -1,0 +1,57 @@
+/* ==============================================================================
+ * Avatar Component — Minimal Warm Greige & Sage
+ * NovaCRM Design System (ReoliCode)
+ * ============================================================================== */
+
+.root {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 9999px;
+  user-select: none;
+}
+
+.sizeSm {
+  height: 1.75rem;
+  width: 1.75rem;
+}
+
+.sizeDefault {
+  height: 2.25rem;
+  width: 2.25rem;
+}
+
+.sizeLg {
+  height: 3rem;
+  width: 3rem;
+}
+
+.sizeXl {
+  height: 4rem;
+  width: 4rem;
+}
+
+.radiusNone { border-radius: 0; }
+.radiusSm { border-radius: 0.25rem; }
+.radiusMd { border-radius: 0.5rem; }
+.radiusFull { border-radius: 9999px; }
+
+.image {
+  aspect-ratio: 1 / 1;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.fallback {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-surface-elevated, #f5f3ee);
+  color: var(--color-text-muted, #5d594f);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}

@@ -1,0 +1,82 @@
+/* ==============================================================================
+ * Table Component — Minimal Warm Greige & Sage
+ * NovaCRM Design System (ReoliCode)
+ * ============================================================================== */
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  caption-side: bottom;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  color: var(--color-text, #1c1a16);
+}
+
+/* ─── Table Header & Head ─── */
+.th {
+  height: 2.5rem;
+  padding: 0 0.75rem;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  color: var(--color-text-muted, #5d594f);
+  border-bottom: 1px solid var(--color-border, #e7e3da);
+  white-space: nowrap;
+}
+
+/* ─── Table Row ─── */
+.row {
+  border-bottom: 1px solid var(--color-border, #e7e3da);
+  transition: background-color 100ms ease;
+}
+
+.row:hover {
+  background-color: var(--color-surface-elevated, #f5f3ee);
+}
+
+.row[data-state="selected"] {
+  background-color: var(--color-accent-soft, #e4ebe0);
+}
+
+/* ─── Table Cell ─── */
+.cell {
+  padding: 0.75rem;
+  vertical-align: middle;
+}
+
+/* ─── Table Footer ─── */
+.footer {
+  border-top: 1px solid var(--color-border, #e7e3da);
+  background-color: var(--color-surface-elevated, #f5f3ee);
+  font-weight: 500;
+}
+
+/* ─── Table Caption ─── */
+.caption {
+  margin-top: 1rem;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted, #5d594f);
+}
+
+/* ─── Densities ─── */
+.densityCompact .cell,
+.densityCompact .th {
+  padding: 0.375rem 0.5rem;
+}
+
+.densitySpacious .cell,
+.densitySpacious .th {
+  padding: 1rem 1.25rem;
+}
+
+/* ─── Striped Variant ─── */
+.striped tbody tr:nth-child(even) {
+  background-color: rgba(28, 26, 22, 0.02);
+}

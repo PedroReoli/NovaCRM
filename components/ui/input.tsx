@@ -1,29 +1,104 @@
 import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
+import styles from "./input.module.css";
 
-const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
-  ({ className, type, ...props }, ref) => {
-    return (
+const inputVariants = cva(styles.input, {
+  variants: {
+    variant: {
+      default: styles.variantDefault,
+      minimal: styles.variantMinimal,
+      filled: styles.variantFilled,
+      flush: styles.variantFlush,
+    },
+    tone: {
+      sage: styles.toneSage,
+      neutral: styles.toneNeutral,
+      warm: styles.toneWarm,
+    },
+    inputSize: {
+      sm: styles.sizeSm,
+      default: styles.sizeDefault,
+      lg: styles.sizeLg,
+    },
+    state: {
+      default: "",
+      error: styles.stateError,
+      success: styles.stateSuccess,
+      warning: styles.stateWarning,
+    },
+    radius: {
+      none: styles.radiusNone,
+      sm: styles.radiusSm,
+      md: styles.radiusMd,
+      lg: styles.radiusLg,
+      full: styles.radiusFull,
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+    inputSize: "default",
+    radius: "sm",
+    state: "default",
+  },
+});
+
+export interface InputProps
+  extends Omit<React.ComponentProps<"input">, "size">,
+    VariantProps<typeof inputVariants> {
+  leftElement?: React.ReactNode;
+  rightElement?: React.ReactNode;
+  customStyle?: React.CSSProperties;
+}
+
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  (
+    {
+      className,
+      type,
+      variant,
+      tone,
+      inputSize,
+      state,
+      radius,
+      leftElement,
+      rightElement,
+      customStyle,
+      style,
+      ...props
+    },
+    ref,
+  ) => {
+    const inputElement = (
       <input
         type={type}
+        ref={ref}
+        style={{ ...customStyle, ...style }}
         className={cn(
-          "flex h-10 w-full rounded-sm border border-border bg-bg px-4 py-2",
-          "text-sm text-text placeholder:text-text-muted",
-          "transition-[border-color,box-shadow] duration-fast ease-out",
-          "hover:border-border-strong",
-          "focus-visible:outline-hidden focus-visible:border-accent-500 focus-visible:ring-2 focus-visible:ring-accent-soft",
-          "file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-text",
-          "disabled:cursor-not-allowed disabled:opacity-55",
-          "aria-[invalid=true]:border-error aria-[invalid=true]:focus-visible:ring-error-bg",
+          inputVariants({ variant, tone, inputSize, state, radius }),
+          leftElement && styles.hasLeftAdornment,
+          rightElement && styles.hasRightAdornment,
           className,
         )}
-        ref={ref}
         {...props}
       />
     );
+
+    if (!leftElement && !rightElement) {
+      return inputElement;
+    }
+
+    return (
+      <div className={styles.wrapper}>
+        {leftElement && <div className={styles.leftAdornment}>{leftElement}</div>}
+        {inputElement}
+        {rightElement && <div className={styles.rightAdornment}>{rightElement}</div>}
+      </div>
+    );
   },
 );
+
 Input.displayName = "Input";
 
-export { Input };
+export { Input, inputVariants };

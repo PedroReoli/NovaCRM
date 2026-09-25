@@ -40,6 +40,7 @@ export default defineConfig({
       // Bancada opcional: usa node:test, PostgreSQL próprio e Playwright com
       // configuração dedicada. Não depende do ambiente da suíte do produto.
       "experiments/extensoes/**",
+      "_ref_deskcomm/**",
     ],
     // Dois projetos, a mesma suíte: `pnpm test:unit` continua rodando TUDO,
     // uma vez só. A divisão existe por duas razões medidas em 18/09/2026:
