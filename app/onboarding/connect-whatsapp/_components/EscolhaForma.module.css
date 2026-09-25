@@ -1,0 +1,73 @@
+.fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.legenda {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.ajuda {
+  font-size: 0.8125rem;
+  color: var(--muted-foreground);
+  line-height: 1.4;
+}
+
+.gradeOpcoes {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.cardOpcao {
+  display: flex;
+  cursor: pointer;
+  align-items: flex-start;
+  gap: var(--space-3);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: var(--space-3);
+  transition: all var(--transition-fast, 150ms ease);
+}
+
+.cardOpcao:hover {
+  background: var(--surface-hover, var(--muted, rgba(255, 255, 255, 0.04)));
+  border-color: var(--border-hover, var(--border));
+}
+
+.cardOpcao[data-marcada="sim"] {
+  border-color: var(--nova-blue, var(--primary));
+  background: rgba(43, 92, 230, 0.06);
+}
+
+.radio {
+  margin-top: 0.25rem;
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  accent-color: var(--nova-blue, var(--primary));
+}
+
+.conteudoOpcao {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.tituloOpcao {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.corpoOpcao {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  line-height: 1.35;
+}
