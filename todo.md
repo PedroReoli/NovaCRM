@@ -14,9 +14,19 @@
 - [x] Executar substituição completa de marca e identidade visual (Rebranding Reoli: Pedro Lucas Reis)
 - [x] Construir histórico orgânico de commits progressivos com datas retroativas (~60 dias)
 - [x] Executar auditoria inicial de arquitetura e segurança com as skills Reoli (`.agent-docs/audits/`)
-- [ ] Decompor God Files identificados (`inbound-turn.ts` e `app/app/agenda/_client.tsx`)
-- [x] Otimizar componentes frontend e consolidar Design System Reoli (Refatoração de Button, Card, Badge, Input, Select, TopBar e Sidebar com CSS modules desacoplados, estética Minimal Warm Greige & Sage e hiper-parametrização via props < 750 linhas)
-- [x] Validar tipagem TypeScript e pipelines de testes (Bateria completa de testes unitários no Vitest para o core de UI e Shell)
+- [x] Decompor God Components frontend para < 750 linhas:
+  - `app/app/agenda/_client.tsx` (1128 -> 622 linhas)
+  - `components/agenda/GradeDaAgenda.tsx` (1023 -> 125 linhas)
+  - `components/agenda/PainelDeMarcacao.tsx` (968 -> 418 linhas)
+  - `components/extensions/ExtensionsManager.tsx` (1220 -> 198 linhas)
+  - `components/inbox/CRMSidePanel.tsx` (858 -> 375 linhas)
+  - `app/app/prospecting/_client.tsx` (853 -> 517 linhas)
+  - `components/connections/ConnectionsClient.tsx` (797 -> 344 linhas)
+  - `app/app/settings/tenant/agenda/_client.tsx` (768 -> 195 linhas)
+  - `app/app/ai/agents/[id]/_components/AgentForm.tsx` (1249 -> 730 linhas)
+  - ZERO arquivos `.tsx` no app ou components acima de 750 linhas!
+- [x] Otimizar componentes frontend e consolidar Design System Reoli (Refatoração de Button, Card, Badge, Input, Select, Textarea, Switch, Table, Tabs, Dialog, Sheet, Avatar, Separator, Skeleton, Popover, Tooltip, DropdownMenu, AlertDialog, TopBar e Sidebar com CSS modules desacoplados, estética Minimal Warm Greige & Sage e hiper-parametrização via props < 750 linhas)
+- [x] Validar tipagem TypeScript e pipelines de testes (19 suites com 41 testes unitários no Vitest para o core de UI e Shell + suites de regras/cercas)
 
 ---
 
