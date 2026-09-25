@@ -1,0 +1,17 @@
+.gridSection {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+  gap: 0.75rem;
+}
+
+.emptyWrapper {
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  background-color: var(--card);
+  padding: 1rem;
+  flex-shrink: 0;
+}
