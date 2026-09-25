@@ -1,4 +1,5 @@
 "use client";
+
 import * as React from "react";
 import Link from "next/link";
 import { useRouter as useNextRouter } from "next/navigation";
@@ -6,7 +7,7 @@ import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,9 +28,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
 import { showApiError } from "@/components/feedback/ApiErrorToast";
-import { ArrowRight, CaretLeft, Info, Plus, Trash } from "@/lib/ui/icons";
+import { CaretLeft, Plus, Trash } from "@/lib/ui/icons";
 import { randomId } from "@/lib/random-id";
 import { usePermission } from "@/hooks/auth/AuthProvider";
 import {
@@ -39,41 +39,27 @@ import {
   useSaveMembers,
   useTestRouter,
   type RouterDetailState,
-  type RouterMemberInput,
-  type RouterTestResult,
 } from "@/hooks/ai/useRouters";
 import type { ClassifierModelOption } from "@/lib/ai/classifier-models";
 import type { ChannelSessionLite } from "../../agents/[id]/_components/AgentForm";
 import { useT } from "@/hooks/i18n/useT";
 
-interface AgentLite {
-  id: string;
-  name: string;
-}
+import type { AgentLite, DraftMember } from "./_types";
+import { IntentRow } from "./_components/IntentRow";
+import { TestPanel } from "./_components/TestPanel";
+import styles from "./router-detail.module.css";
 
 interface Props {
   routerId: string;
   initialState: RouterDetailState;
   agents: AgentLite[];
   channelSessions: ChannelSessionLite[];
-  /** Só os modelos que esta organização consegue usar — ver lib/ai/classifier-models. */
   classifierModels: ClassifierModelOption[];
 }
 
-interface DraftMember extends RouterMemberInput {
-  key: string;
-}
-
 const NONE = "__none__";
-/** "deixa o sistema escolher" — grava null nos dois campos e volta ao padrão. */
 const AUTO = "__auto__";
 
-/**
- * A chave do seletor carrega provedor E modelo (`provider::model_id`) porque os
- * dois precisam ser gravados juntos: `resolveOrgLlmConfig` decide o provedor pela
- * config da ORGANIZAÇÃO, então um id de modelo salvo sozinho viaja para o
- * provedor errado e a classificação falha em toda mensagem.
- */
 function classifierKeyFrom(config: Record<string, unknown> | null | undefined): string {
   const cfg = config ?? {};
   const model = cfg["classifier_model"];
@@ -103,8 +89,6 @@ export function RouterEditorClient({
   const [name, setName] = React.useState(router.name);
   const [isActive, setIsActive] = React.useState(router.is_active);
   const [fallbackAgentId, setFallbackAgentId] = React.useState(router.fallback_agent_id ?? "");
-  // Uma chave só para os dois campos: escolher modelo sem levar o provedor junto
-  // manda o id para o provedor da ORG, e a classificação falha sempre.
   const [classifier, setClassifier] = React.useState(() => classifierKeyFrom(router.config));
   const [draftMembers, setDraftMembers] = React.useState<DraftMember[]>(() =>
     members.map((m) => ({ ...m, key: m.id })),
@@ -154,11 +138,13 @@ export function RouterEditorClient({
       return t("Descreva quando a IA deve escolher esta intenção.");
     return null;
   });
+
   const duplicateNames = new Set(
     draftMembers
       .map((m) => m.intent_name.trim().toLowerCase())
       .filter((n, i, arr) => n.length > 0 && arr.indexOf(n) !== i),
   );
+
   const isValid =
     name.trim().length > 0 &&
     memberErrors.every((e) => e === null) &&
@@ -204,8 +190,6 @@ export function RouterEditorClient({
           name,
           is_active: isActive,
           fallback_agent_id: fallbackAgentId || null,
-          // O PATCH mescla `config` com a existente, então mandar só estes dois
-          // campos preserva sticky/min_confidence.
           config:
             classifier === AUTO
               ? { classifier_model: null, classifier_provider: null }
@@ -238,12 +222,9 @@ export function RouterEditorClient({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <div className="flex items-center gap-3">
-          <Link
-            href="/app/ai/routers"
-            className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
-          >
+      <div className={styles.headerRow}>
+        <div className={styles.leftHeader}>
+          <Link href="/app/ai/routers" className={styles.backLink}>
             <CaretLeft size={14} aria-hidden /> {t("Roteadores")}
           </Link>
           <Badge variant={router.is_active ? "success" : "neutral"} className="text-xs">
@@ -251,13 +232,18 @@ export function RouterEditorClient({
           </Badge>
         </div>
         {canManage && (
-          <Button variant="ghost" size="sm" onClick={() => setDeleteOpen(true)} className="text-destructive">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setDeleteOpen(true)}
+            className="text-destructive"
+          >
             <Trash /> {t("Excluir roteador")}
           </Button>
         )}
       </div>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+      <div className={styles.gridCols}>
         <div className="space-y-4">
           <Card className="space-y-3 p-4">
             <h3 className="text-sm font-medium">{t("Identificação")}</h3>
@@ -273,7 +259,7 @@ export function RouterEditorClient({
             </div>
             <div className="space-y-1">
               <Label>{t("Número de WhatsApp")}</Label>
-              <p className="rounded-md border border-border/60 px-3 py-2 text-sm text-muted-foreground">
+              <p className={styles.channelNumber}>
                 {channel
                   ? `${channel.display_name}${channel.phone_number ? ` · ${channel.phone_number}` : ""}`
                   : t("Número removido")}
@@ -400,7 +386,7 @@ export function RouterEditorClient({
             ) : (
               <ul className="flex flex-col gap-3">
                 {draftMembers.map((m, i) => (
-                  <li key={m.key} className="rounded-md border border-border/60 p-3">
+                  <li key={m.key} className={styles.intentItem}>
                     <IntentRow
                       member={m}
                       agents={agents}
@@ -445,261 +431,5 @@ export function RouterEditorClient({
         </AlertDialogContent>
       </AlertDialog>
     </div>
-  );
-}
-
-function IntentRow({
-  member,
-  agents,
-  disabled,
-  error,
-  duplicate,
-  onChange,
-  onRemove,
-}: {
-  member: DraftMember;
-  agents: AgentLite[];
-  disabled: boolean;
-  error: string | null;
-  duplicate: boolean;
-  onChange: (patch: Partial<DraftMember>) => void;
-  onRemove: () => void;
-}) {
-  const t = useT();
-  return (
-    <div className="space-y-2">
-      <div className="flex items-center gap-2">
-        <div className="flex-1 space-y-1">
-          <Label>{t("Nome da intenção")}</Label>
-          <Input
-            value={member.intent_name}
-            onChange={(e) => onChange({ intent_name: e.target.value })}
-            placeholder={t("Ex.: quer comprar")}
-            disabled={disabled}
-            maxLength={120}
-            aria-invalid={duplicate}
-          />
-        </div>
-        <div className="flex-1 space-y-1">
-          <Label>{t("Agente que atende")}</Label>
-          <Select value={member.agent_id || undefined} onValueChange={(v) => onChange({ agent_id: v })} disabled={disabled}>
-            <SelectTrigger>
-              <SelectValue placeholder={t("Selecione o agente")} />
-            </SelectTrigger>
-            <SelectContent>
-              {agents.map((a) => (
-                <SelectItem key={a.id} value={a.id}>
-                  {a.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        {!disabled && (
-          <Button
-            variant="ghost"
-            size="icon"
-            className="mt-5 shrink-0"
-            onClick={onRemove}
-            aria-label={t("Remover intenção")}
-          >
-            <Trash />
-          </Button>
-        )}
-      </div>
-      <div className="space-y-1">
-        <Label>{t("Quando escolher esta intenção")}</Label>
-        <Textarea
-          value={member.intent_description}
-          onChange={(e) => onChange({ intent_description: e.target.value })}
-          placeholder={t(
-            "Escreva como explicaria para um atendente novo: em que situação o cliente cai aqui.",
-          )}
-          disabled={disabled}
-          rows={2}
-          maxLength={2000}
-        />
-      </div>
-      <ExamplesInput
-        value={member.examples}
-        onChange={(examples) => onChange({ examples })}
-        disabled={disabled}
-      />
-      {duplicate ? (
-        <p className="text-xs text-destructive">{t("Já existe outra intenção com este nome.")}</p>
-      ) : error ? (
-        <p className="text-xs text-destructive">{error}</p>
-      ) : null}
-    </div>
-  );
-}
-
-function ExamplesInput({
-  value,
-  onChange,
-  disabled,
-}: {
-  value: string[];
-  onChange: (next: string[]) => void;
-  disabled?: boolean;
-}) {
-  const t = useT();
-  const [draft, setDraft] = React.useState("");
-
-  function add(ex: string) {
-    const trimmed = ex.trim();
-    if (!trimmed || value.includes(trimmed) || value.length >= 10) return;
-    onChange([...value, trimmed]);
-    setDraft("");
-  }
-
-  function remove(ex: string) {
-    onChange(value.filter((x) => x !== ex));
-  }
-
-  return (
-    <div className="space-y-1">
-      <Label>{t("Frases de exemplo (opcional)")}</Label>
-      <div className="flex flex-wrap gap-1 rounded-md border border-border/60 p-2">
-        {value.map((ex) => (
-          <button
-            key={ex}
-            type="button"
-            onClick={() => !disabled && remove(ex)}
-            className="group flex items-center gap-1 rounded-md bg-muted px-2 py-0.5 text-xs hover:bg-destructive/15"
-            disabled={disabled}
-            aria-label={`${t("Remover exemplo")} ${ex}`}
-          >
-            {ex}
-            <span className="text-muted-foreground group-hover:text-destructive">×</span>
-          </button>
-        ))}
-        {value.length === 0 ? (
-          <span className="text-xs text-muted-foreground">{t("Sem frases de exemplo.")}</span>
-        ) : null}
-      </div>
-      {!disabled && (
-        <div className="flex gap-2">
-          <Input
-            value={draft}
-            onChange={(e) => setDraft(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                add(draft);
-              }
-            }}
-            placeholder={t("Ex.: quanto custa? (Enter)")}
-            disabled={value.length >= 10}
-            maxLength={200}
-          />
-          <button
-            type="button"
-            className="rounded-md border border-border/60 px-3 text-xs hover:bg-muted"
-            onClick={() => add(draft)}
-            disabled={draft.trim() === ""}
-          >
-            {t("Adicionar")}
-          </button>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function TestPanel({
-  isActive,
-  canTest,
-  message,
-  onMessageChange,
-  onTest,
-  result,
-  pending,
-}: {
-  isActive: boolean;
-  canTest: boolean;
-  message: string;
-  onMessageChange: (v: string) => void;
-  onTest: () => void;
-  /**
-   * O tipo vem do hook, não é redeclarado aqui. Enquanto eram duas declarações
-   * do mesmo contrato, a próxima mudança acertava uma só — foi assim que a rota
-   * passou a poder devolver ausência e este lado continuou prometendo número.
-   */
-  result: RouterTestResult | undefined;
-  pending: boolean;
-}) {
-  const t = useT();
-  // A guarda é sobre a CONFIANÇA, não sobre o campo vizinho. Antes, os três
-  // renders checavam `intent_name` e por acaso concordavam — ninguém havia
-  // escrito que um vale só com o outro. Bastaria um quarto render sem a guarda
-  // para o valor ausente aparecer na tela.
-  // O valor sai para um const ANTES do JSX para que o TypeScript o estreite lá
-  // dentro. Sem ele, o render precisava de `(result.confidence ?? 0)` — e um
-  // `?? 0` sobre confiança, dentro do PR que existe para extingui-lo, é a
-  // definição de padrão que volta pela porta dos fundos. A cerca em
-  // `tests/unit/confianca-do-handoff-nao-e-similaridade.test.ts` passou a cobrir
-  // `app/app/ai` por causa desta linha.
-  const confianca = result?.confidence ?? null;
-  const abaixoDoMinimo =
-    confianca !== null && result !== undefined && confianca < result.min_confidence;
-  return (
-    <Card className="space-y-3 p-4">
-      <CardHeader className="p-0">
-        <CardTitle className="text-sm">{t("Testar classificação")}</CardTitle>
-        <CardDescription>
-          {t(
-            "Escreva uma frase como um cliente escreveria e veja qual intenção e qual agente o roteador escolheria — sem afetar nenhuma conversa real.",
-          )}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-3 p-0">
-        {!isActive && (
-          <div className="flex items-start gap-2 rounded-md bg-accent-soft p-3 text-xs text-text-muted">
-            <Info className="mt-0.5 shrink-0" aria-hidden />
-            <p>{t("Ative o roteador para poder testar a classificação.")}</p>
-          </div>
-        )}
-        <Textarea
-          value={message}
-          onChange={(e) => onMessageChange(e.target.value)}
-          placeholder={t("Ex.: oi, quero saber o preço do plano premium")}
-          rows={2}
-          maxLength={4000}
-          disabled={!canTest || !isActive}
-        />
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={onTest}
-          disabled={!canTest || !isActive || pending || !message.trim()}
-        >
-          {pending ? t("Testando…") : t("Testar classificação")}
-          {!pending && <ArrowRight />}
-        </Button>
-        {result && (
-          <div className="rounded-md border border-border/60 p-3 text-sm">
-            <p>
-              {t("Intenção")}: <span className="font-medium">{result.intent_name ?? t("nenhuma casou")}</span>
-              {confianca !== null && (
-                <span className="ml-2 text-xs text-muted-foreground">
-                  {t("confiança")} {(confianca * 100).toFixed(0)}%
-                </span>
-              )}
-            </p>
-            {abaixoDoMinimo && confianca !== null && (
-              <p className="text-xs text-amber-600">
-                {t("Confiança")} {(confianca * 100).toFixed(0)}% — {t("abaixo do mínimo de")}{" "}
-                {(result.min_confidence * 100).toFixed(0)}%, {t("cairia no atendimento padrão em produção.")}
-              </p>
-            )}
-            <p>
-              {t("Agente que atenderia")}:{" "}
-              <span className="font-medium">{result.agent_name ?? t("nenhum (sem fallback)")}</span>
-            </p>
-          </div>
-        )}
-      </CardContent>
-    </Card>
   );
 }

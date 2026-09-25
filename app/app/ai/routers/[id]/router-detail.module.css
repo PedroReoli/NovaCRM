@@ -1,0 +1,55 @@
+.headerRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.leftHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.backLink {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.backLink:hover {
+  color: var(--foreground);
+}
+
+.gridCols {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 1024px) {
+  .gridCols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.channelNumber {
+  border-radius: 0.375rem;
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  background-color: var(--background);
+}
+
+.intentItem {
+  border-radius: 0.375rem;
+  border: 1px solid var(--border);
+  padding: 0.75rem;
+  background-color: var(--background);
+}
