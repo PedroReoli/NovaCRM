@@ -94,7 +94,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
-    const Comp = asChild ? Slot : "button";
     const isDisabled = disabled || isLoading;
 
     const mergedStyle: React.CSSProperties = {
@@ -105,18 +104,33 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       ...style,
     };
 
+    const combinedClassName = cn(
+      buttonVariants({ variant, size, tone, density, radius }),
+      fullWidth && styles.fullWidth,
+      isDisabled && styles.disabled,
+      className,
+    );
+
+    if (asChild) {
+      return (
+        <Slot
+          ref={ref}
+          style={Object.keys(mergedStyle).length > 0 ? mergedStyle : undefined}
+          className={combinedClassName}
+          {...props}
+        >
+          {children}
+        </Slot>
+      );
+    }
+
     return (
-      <Comp
+      <button
         ref={ref}
         disabled={isDisabled}
         aria-busy={isLoading}
         style={Object.keys(mergedStyle).length > 0 ? mergedStyle : undefined}
-        className={cn(
-          buttonVariants({ variant, size, tone, density, radius }),
-          fullWidth && styles.fullWidth,
-          isDisabled && styles.disabled,
-          className,
-        )}
+        className={combinedClassName}
         {...props}
       >
         {isLoading && (
@@ -137,7 +151,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             {rightIcon}
           </span>
         )}
-      </Comp>
+      </button>
     );
   },
 );

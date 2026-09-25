@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 
 import { describe, expect, it } from "vitest";
 
@@ -14,7 +14,9 @@ import { describe, expect, it } from "vitest";
  * nomes certos, o GET devolvendo, o detalhe mostrando.
  */
 describe("endereço e observação existem na marcação e chegam ao compromisso", () => {
-  const tela = readFileSync("app/app/agenda/_client.tsx", "utf8");
+  const tela = existsSync("app/app/agenda/_components/SheetMarcacao.tsx")
+    ? readFileSync("app/app/agenda/_components/SheetMarcacao.tsx", "utf8")
+    : readFileSync("app/app/agenda/_client.tsx", "utf8");
   const handler = readFileSync("app/api/v1/agenda/agendamentos/_handler.ts", "utf8");
   const rota = readFileSync("app/api/v1/agenda/agendamentos/route.ts", "utf8");
   const detalhe = readFileSync("components/agenda/DetalheDoCompromisso.tsx", "utf8");

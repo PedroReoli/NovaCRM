@@ -27,7 +27,10 @@ import { describe, expect, it } from "vitest";
  */
 
 const RAIZ = process.cwd();
-const FONTE = fs.readFileSync(path.join(RAIZ, "app", "app", "agenda", "_client.tsx"), "utf8");
+const CAMINHO = fs.existsSync(path.join(RAIZ, "app", "app", "agenda", "_components", "SheetMarcacao.tsx"))
+  ? path.join(RAIZ, "app", "app", "agenda", "_components", "SheetMarcacao.tsx")
+  : path.join(RAIZ, "app", "app", "agenda", "_client.tsx");
+const FONTE = fs.readFileSync(CAMINHO, "utf8");
 
 /** O `className` literal logo depois de `ancora` no fonte (até 400 caracteres). */
 function classesApos(ancora: number): string {
