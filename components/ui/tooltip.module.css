@@ -1,0 +1,77 @@
+/* Tooltip — Minimal Warm Greige & Sage */
+
+.content {
+  z-index: 50;
+  max-width: 20rem;
+  overflow: hidden;
+  word-break: break-word;
+  border-radius: var(--radius, 0.375rem);
+  background-color: var(--primary, #2c2b28);
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--primary-foreground, #faf9f6);
+  box-shadow: 0 4px 12px rgba(44, 43, 40, 0.12);
+  transition: opacity 150ms ease, transform 150ms ease;
+  transform-origin: var(--radix-tooltip-content-transform-origin);
+}
+
+:global(.dark) .content {
+  background-color: #24221c;
+  color: #f0eee9;
+  border: 1px solid #36342b;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Variants */
+.variant-default {
+  background-color: var(--primary, #2c2b28);
+  color: var(--primary-foreground, #faf9f6);
+}
+
+.variant-warm {
+  background-color: #3d3b35;
+  color: #faf9f6;
+  border: 1px solid #524f46;
+}
+
+.variant-sage {
+  background-color: #455a3f;
+  color: #ffffff;
+  border: 1px solid #57734f;
+}
+
+:global(.dark) .variant-sage {
+  background-color: #2b3927;
+  color: #e2f0df;
+  border: 1px solid #3c5037;
+}
+
+.variant-subtle {
+  background-color: var(--popover, #ffffff);
+  color: var(--popover-foreground, #2c2b28);
+  border: 1px solid var(--border, #e2ded6);
+  box-shadow: 0 4px 12px rgba(44, 43, 40, 0.08);
+}
+
+:global(.dark) .variant-subtle {
+  background-color: #1e1d18;
+  color: #f0eee9;
+  border-color: #2d2b24;
+}
+
+/* Sizes */
+.size-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.6875rem;
+}
+
+.size-md {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+}
+
+.size-lg {
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+}

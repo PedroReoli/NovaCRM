@@ -1,0 +1,145 @@
+/* Dropdown Menu — Minimal Warm Greige & Sage */
+
+.content,
+.subContent {
+  z-index: 50;
+  min-width: 8rem;
+  overflow: hidden;
+  border-radius: var(--radius, 0.5rem);
+  border: 1px solid var(--border, #e2ded6);
+  background-color: var(--popover, #ffffff);
+  padding: 0.25rem;
+  color: var(--popover-foreground, #2c2b28);
+  box-shadow: 0 10px 25px -5px rgba(44, 43, 40, 0.08), 0 8px 10px -6px rgba(44, 43, 40, 0.05);
+  transform-origin: var(--radix-dropdown-menu-content-transform-origin);
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+:global(.dark) .content,
+:global(.dark) .subContent {
+  background-color: var(--popover, #1e1d18);
+  border-color: var(--border, #2d2b24);
+  color: var(--popover-foreground, #f0eee9);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.45);
+}
+
+.item,
+.subTrigger {
+  position: relative;
+  display: flex;
+  cursor: default;
+  user-select: none;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: calc(var(--radius, 0.5rem) - 2px);
+  padding: 0.375rem 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  outline: none;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.item:focus,
+.item[data-highlighted],
+.subTrigger:focus,
+.subTrigger[data-state="open"] {
+  background-color: var(--accent, #f0eee9);
+  color: var(--accent-foreground, #2c2b28);
+}
+
+:global(.dark) .item:focus,
+:global(.dark) .item[data-highlighted],
+:global(.dark) .subTrigger:focus,
+:global(.dark) .subTrigger[data-state="open"] {
+  background-color: var(--accent, #2d2b24);
+  color: var(--accent-foreground, #faf9f6);
+}
+
+.item[data-disabled],
+.subTrigger[data-disabled] {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.checkboxItem,
+.radioItem {
+  position: relative;
+  display: flex;
+  cursor: default;
+  user-select: none;
+  align-items: center;
+  border-radius: calc(var(--radius, 0.5rem) - 2px);
+  padding: 0.375rem 0.5rem 0.375rem 2rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  outline: none;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.checkboxItem:focus,
+.checkboxItem[data-highlighted],
+.radioItem:focus,
+.radioItem[data-highlighted] {
+  background-color: var(--accent, #f0eee9);
+  color: var(--accent-foreground, #2c2b28);
+}
+
+:global(.dark) .checkboxItem:focus,
+:global(.dark) .checkboxItem[data-highlighted],
+:global(.dark) .radioItem:focus,
+:global(.dark) .radioItem[data-highlighted] {
+  background-color: var(--accent, #2d2b24);
+  color: var(--accent-foreground, #faf9f6);
+}
+
+.itemIndicator {
+  position: absolute;
+  left: 0.5rem;
+  display: flex;
+  height: 0.875rem;
+  width: 0.875rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.label {
+  padding: 0.375rem 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--muted-foreground, #65635c);
+}
+
+.separator {
+  margin: 0.25rem -0.25rem;
+  height: 1px;
+  background-color: var(--border, #e2ded6);
+}
+
+:global(.dark) .separator {
+  background-color: var(--border, #2d2b24);
+}
+
+.shortcut {
+  margin-left: auto;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  opacity: 0.6;
+}
+
+/* Inset utility */
+.inset {
+  padding-left: 2rem;
+}
+
+/* Sage Accent Theme */
+.theme-sage .item:focus,
+.theme-sage .item[data-highlighted] {
+  background-color: rgba(103, 136, 93, 0.15);
+  color: #2c4424;
+}
+
+:global(.dark) .theme-sage .item:focus,
+:global(.dark) .theme-sage .item[data-highlighted] {
+  background-color: rgba(103, 136, 93, 0.25);
+  color: #e2f0df;
+}
