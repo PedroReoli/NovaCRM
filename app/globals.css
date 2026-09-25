@@ -31,6 +31,13 @@
    ───────────────────────────────────────────────────────────────────────── */
 
 :root {
+  /* NovaCRM Design Tokens (OKLCH) */
+  --nova-blue: oklch(0.55 0.22 260);
+  --nova-black: oklch(0.08 0.01 260);
+  --nova-gray: oklch(0.92 0.01 260);
+  --nova-white: oklch(0.98 0.005 260);
+  --nova-accent: oklch(0.70 0.15 200);
+
   /* Surfaces (light) */
   --color-bg: #faf9f6;
   --color-surface: #ffffff;
@@ -250,6 +257,11 @@
    (lib/branding/css.ts), que só ganha consumidor com a tela de marca.
    ───────────────────────────────────────────────────────────────────────── */
 [data-theme="light"] {
+  --nova-blue: oklch(0.55 0.22 260);
+  --nova-black: oklch(0.08 0.01 260);
+  --nova-gray: oklch(0.92 0.01 260);
+  --nova-white: oklch(0.98 0.005 260);
+  --nova-accent: oklch(0.70 0.15 200);
   --color-bg: #faf9f6;
   --color-surface: #ffffff;
   --color-surface-elevated: #f5f3ee;
@@ -327,6 +339,11 @@
 }
 
 [data-theme="dark"] {
+  --nova-blue: oklch(0.55 0.22 260);
+  --nova-black: oklch(0.08 0.01 260);
+  --nova-gray: oklch(0.92 0.01 260);
+  --nova-white: oklch(0.98 0.005 260);
+  --nova-accent: oklch(0.70 0.15 200);
   /* Surfaces (dark — drawn) */
   --color-bg: #161510;
   --color-surface: #1d1c17;
@@ -453,6 +470,12 @@
    embrulhar o `:root` num `@layer`, o teste reprova e a explicação está aqui.
    ───────────────────────────────────────────────────────────────────────── */
 @theme inline {
+  --color-nova-blue: var(--nova-blue);
+  --color-nova-black: var(--nova-black);
+  --color-nova-gray: var(--nova-gray);
+  --color-nova-white: var(--nova-white);
+  --color-nova-accent: var(--nova-accent);
+
   /* Foundation */
   --color-bg: var(--color-bg);
   --color-surface: var(--color-surface);

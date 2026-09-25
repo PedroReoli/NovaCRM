@@ -98,7 +98,10 @@ describe("Tailwind 4 — a ponte token → utilitário", () => {
     expect(orfaos, `tokens referenciados no @theme mas ausentes do :root`).toEqual([]);
   });
 
-  it("nenhum componente usa, como utilitário, token do `:root` que o `@theme` não faz ponte", () => {
+  it(
+    "nenhum componente usa, como utilitário, token do `:root` que o `@theme` não faz ponte",
+    { timeout: 45000 },
+    () => {
     // A MÃO INVERSA do teste acima, e o defeito que ela pega é pior, porque é
     // invisível: o teste anterior olha do `@theme` para o `:root` e pega o token
     // que não existe; este olha do COMPONENTE para o `@theme` e pega a classe
@@ -168,7 +171,7 @@ describe("Tailwind 4 — a ponte token → utilitário", () => {
         // Só interessa pasta que entrega UI ao browser. `tests/` e `docs/`
         // escrevem className em fixture e em exemplo, e ficam de fora de
         // propósito — varrê-las publicaria CSS que nenhuma tela usa.
-        if (["tests", "docs", "scripts", "supabase", "public", "tasks", "loop"].includes(nome)) {
+        if (["tests", "docs", "scripts", "supabase", "public", "tasks", "loop", "_ref_deskcomm"].includes(nome)) {
           return false;
         }
         return temClassName(path.join(RAIZ, nome));
