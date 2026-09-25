@@ -1,0 +1,121 @@
+.card {
+  padding: var(--space-5);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.titulo {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.subtitulo {
+  margin-top: var(--space-1);
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  line-height: 1.4;
+}
+
+.conteudoModo {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.botoesModo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.boxAgentePronto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface-subtle, var(--muted, rgba(255, 255, 255, 0.02)));
+  padding: var(--space-4);
+  font-size: 0.875rem;
+}
+
+.nomeAgentePronto {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.instrucaoAgentePronto {
+  white-space: pre-wrap;
+  color: var(--muted-foreground);
+}
+
+.linksAgentePronto {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.linksAgentePronto a {
+  text-decoration: underline;
+  color: var(--nova-blue, var(--accent-500));
+}
+
+.formAbordagem {
+  margin-top: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.avisoPreservado {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+.fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.gradeDupla {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .gradeDupla {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.linkApoio {
+  margin-top: var(--space-1);
+  display: inline-block;
+  font-size: 0.75rem;
+  text-decoration: underline;
+  color: var(--muted-foreground);
+}
+
+.linkApoio:hover {
+  color: var(--text);
+}
+
+.notaApoio {
+  margin-top: var(--space-1);
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  line-height: 1.4;
+}
