@@ -1,84 +1,25 @@
 "use client";
-import { useRef, useState } from "react";
+
+import { useState } from "react";
 import Link from "next/link";
-import { randomId } from "@/lib/random-id";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { apiClient } from "@/lib/api/client";
 import { useT } from "@/hooks/i18n/useT";
-import { safePublicLink, type CampaignConfig, type Prospect } from "@/lib/prospecting/schema";
+import type { CampaignConfig } from "@/lib/prospecting/schema";
 import { ProspectingAgentBuilder, type CreatedProspectingAgent } from "./_create-agent";
 import type { ProspectingAgentSetupInput } from "@/lib/prospecting/agent-setup-schema";
+import type { State } from "./_types";
+import { emptyConfig, selectClass } from "./_types";
+import { CampaignsList } from "./_campaigns-list";
+import { CampaignOverviewCard } from "./_campaign-overview-card";
+import { ProspectingCandidatesTable } from "./_prospecting-candidates-table";
+import { ProspectingSearchForm } from "./_prospecting-search-form";
 
-type Campaign = {
-  id: string;
-  name: string;
-  status: string;
-  search_status: string;
-  error: string | null;
-  config: CampaignConfig | null;
-  result_count: number;
-  skipped_count: number;
-  cost_usd: string | null;
-  next_send_at: string;
-};
-type Candidate = {
-  id: string;
-  campaign_id: string;
-  data: Prospect;
-  progress: string;
-  message_status: string | null;
-  error: string | null;
-  conversation_id: string | null;
-};
-type State = {
-  configured: boolean;
-  campaigns: Campaign[];
-  candidates: Candidate[];
-  agents: { id: string; name: string }[];
-  channels: {
-    id: string;
-    display_name: string | null;
-    phone_number: string | null;
-    status: string;
-  }[];
-  stages: { id: string; name: string; pipeline_id: string; pipeline_name: string }[];
-};
-const labels: Record<string, string> = {
-  draft: "Preparar campanha",
-  running: "Em andamento",
-  paused: "Pausada",
-  completed: "Abordagens concluídas",
-  starting: "Iniciando busca",
-  succeeded: "Busca concluída",
-  failed: "Revisar falha",
-  unknown: "Busca sem confirmação",
-  new: "Encontrado",
-  queued: "Na fila",
-  sending: "Preparando abordagem",
-  sent: "Abordado",
-  skipped: "Não abordado",
-  replied: "Respondeu",
-  qualified: "Qualificado",
-};
-const selectClass = "h-10 w-full rounded-md border border-input bg-background px-3 text-sm";
-const emptyConfig: CampaignConfig = {
-  agent_id: "",
-  channel_session_id: "",
-  pipeline_id: "",
-  stage_id: "",
-  qualified_stage_id: "",
-  instruction: "",
-  qualification: "",
-  daily_limit: 10,
-  interval_minutes: 15,
-  legal_basis_ref: "",
-};
 export function ProspectingClient() {
   const t = useT();
   const query = useQuery({
@@ -87,21 +28,16 @@ export function ProspectingClient() {
     refetchInterval: 10000,
   });
   const data = query.data;
-  const searchAttempt = useRef<{ fingerprint: string; id: string } | null>(null);
+
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
-  const [key, setKey] = useState("");
   const [settings, setSettings] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
-  const [niche, setNiche] = useState("");
-  const [location, setLocation] = useState("");
-  const [limit, setLimit] = useState(20);
-  const [budget, setBudget] = useState(1);
-  const [enrich, setEnrich] = useState(true);
   const [campaignDrafts, setCampaignDrafts] = useState<Record<string, CampaignConfig>>({});
   const [manualCampaigns, setManualCampaigns] = useState<Record<string, boolean>>({});
   const [createdAgents, setCreatedAgents] = useState<{ id: string; name: string }[]>([]);
+
   const campaign = data?.campaigns.find((c) => c.id === selected) ?? data?.campaigns[0];
   // A stored config is frozen by activation; unsaved choices belong to one campaign.
   const config = campaign?.config ?? (campaign && campaignDrafts[campaign.id]) ?? emptyConfig;
@@ -112,6 +48,7 @@ export function ProspectingClient() {
       [...(data?.agents ?? []), ...createdAgents].map((agent) => [agent.id, agent]),
     ).values(),
   ];
+
   function setConfig(update: CampaignConfig | ((previous: CampaignConfig) => CampaignConfig)) {
     if (!campaign || campaign.config) return;
     setCampaignDrafts((drafts) => ({
@@ -120,6 +57,7 @@ export function ProspectingClient() {
         typeof update === "function" ? update(drafts[campaign.id] ?? emptyConfig) : update,
     }));
   }
+
   async function selectCreatedAgent(
     campaignId: string,
     result: CreatedProspectingAgent,
@@ -151,7 +89,9 @@ export function ProspectingClient() {
       `${t("Agente publicado e selecionado.")} ${result.model_label}. ${t("Revise o ritmo e inicie a campanha quando estiver pronto.")}`,
     );
   }
+
   const candidates = data?.candidates.filter((c) => c.campaign_id === campaign?.id) ?? [];
+
   async function perform(body: unknown, message: string) {
     setBusy(true);
     setError(null);
@@ -168,9 +108,10 @@ export function ProspectingClient() {
       setBusy(false);
     }
   }
+
   const update = <K extends keyof CampaignConfig>(field: K, value: CampaignConfig[K]) =>
     setConfig((c) => ({ ...c, [field]: value }));
-  const count = (states: string[]) => candidates.filter((c) => states.includes(c.progress)).length;
+
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-col gap-6 p-4 md:p-8">
       <header className="flex flex-wrap items-start justify-between gap-4">
@@ -185,6 +126,7 @@ export function ProspectingClient() {
           {t("Configurar busca")}
         </Button>
       </header>
+
       {(error || query.error) && (
         <div
           role="alert"
@@ -196,176 +138,37 @@ export function ProspectingClient() {
               : t("Falha ao carregar a prospecção."))}
         </div>
       )}
+
       {notice && (
         <div role="status" className="rounded-lg border bg-muted/30 p-3 text-sm">
           {notice}
         </div>
       )}
+
       {!data && !query.error && <p role="status">{t("Carregando campanhas…")}</p>}
-      {(settings || data?.configured === false) && (
-        <Card className="p-5">
-          <form
-            className="flex flex-col gap-3 sm:flex-row sm:items-end"
-            onSubmit={async (e) => {
-              e.preventDefault();
-              if (
-                await perform({ action: "configure", api_key: key }, t("Chave de busca salva."))
-              ) {
-                setKey("");
-                setSettings(false);
-              }
-            }}
-          >
-            <div className="flex-1">
-              <Label htmlFor="prospecting-key">{t("Chave da Apify")}</Label>
-              <Input
-                id="prospecting-key"
-                type="password"
-                autoComplete="off"
-                value={key}
-                onChange={(e) => setKey(e.target.value)}
-                required
-                minLength={10}
-                className="mt-2"
-              />
-              <p className="mt-2 text-xs text-muted-foreground">
-                {t("A chave fica cifrada no servidor. Cada busca tem seu próprio limite de gasto.")}
-              </p>
-            </div>
-            <Button disabled={busy || !key} type="submit">
-              {t("Salvar chave")}
-            </Button>
-          </form>
-        </Card>
-      )}
+
       <div className="grid gap-6 lg:grid-cols-[320px_1fr]">
         <aside className="flex flex-col gap-5">
-          <Card className="p-5">
-            <h2 className="text-lg font-semibold">{t("1. Encontrar empresas")}</h2>
-            <form
-              className="mt-4 space-y-4"
-              onSubmit={async (e) => {
-                e.preventDefault();
-                const fingerprint = JSON.stringify([niche, location, limit, budget, enrich]);
-                if (searchAttempt.current?.fingerprint !== fingerprint)
-                  searchAttempt.current = { fingerprint, id: randomId() };
-                const success = await perform(
-                  {
-                    action: "search",
-                    request_id: searchAttempt.current.id,
-                    search: {
-                      name: `${niche} · ${location}`.slice(0, 120),
-                      niche,
-                      location,
-                      limit,
-                      budget_usd: budget,
-                      enrich,
-                    },
-                  },
-                  t("Solicitação registrada. Acompanhe o estado da busca nesta tela."),
-                );
-                if (success) {
-                  setSelected(null);
-                  searchAttempt.current = null;
-                }
-              }}
-            >
-              <div>
-                <Label htmlFor="prospecting-niche">{t("Público ou segmento")}</Label>
-                <Input
-                  id="prospecting-niche"
-                  value={niche}
-                  onChange={(e) => setNiche(e.target.value)}
-                  placeholder={t("Ex.: clínicas de estética")}
-                  minLength={2}
-                  maxLength={120}
-                  required
-                  className="mt-1"
-                />
-              </div>
-              <div>
-                <Label htmlFor="prospecting-location">{t("Cidade ou região")}</Label>
-                <Input
-                  id="prospecting-location"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  placeholder={t("Ex.: São Paulo, SP")}
-                  minLength={2}
-                  maxLength={160}
-                  required
-                  className="mt-1"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <Label htmlFor="prospecting-limit">{t("Até quantas empresas")}</Label>
-                  <Input
-                    id="prospecting-limit"
-                    type="number"
-                    min={1}
-                    max={100}
-                    value={limit}
-                    onChange={(e) => setLimit(Number(e.target.value))}
-                    required
-                    className="mt-1"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="prospecting-budget">{t("Teto da busca (US$)")}</Label>
-                  <Input
-                    id="prospecting-budget"
-                    type="number"
-                    min={0.5}
-                    max={10}
-                    step={0.5}
-                    value={budget}
-                    onChange={(e) => setBudget(Number(e.target.value))}
-                    required
-                    className="mt-1"
-                  />
-                </div>
-              </div>
-              <label className="flex items-start gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={enrich}
-                  onChange={(e) => setEnrich(e.target.checked)}
-                  className="mt-1"
-                />
-                {t("Enriquecer com e-mails comerciais e redes encontradas no site")}
-              </label>
-              <p className="text-xs text-muted-foreground">
-                {t(
-                  "A pesquisa usa seu saldo da Apify. A quantidade encontrada pode ser menor que o limite. Nenhuma abordagem começa nesta etapa.",
-                )}
-              </p>
-              <Button className="w-full" type="submit" disabled={busy || !data?.configured}>
-                {busy ? t("Aguarde…") : t("Buscar empresas")}
-              </Button>
-            </form>
-          </Card>
-          <section>
-            <h2 className="mb-3 text-sm font-semibold">{t("Suas campanhas")}</h2>
-            <div className="space-y-2">
-              {data?.campaigns.map((c) => (
-                <button
-                  key={c.id}
-                  type="button"
-                  onClick={() => {
-                    setSelected(c.id);
-                    setNotice(null);
-                  }}
-                  className={`w-full rounded-lg border p-3 text-left ${campaign?.id === c.id ? "border-primary bg-primary/5" : "bg-card"}`}
-                >
-                  <span className="block text-sm font-medium">{c.name}</span>
-                  <span className="mt-1 block text-xs text-muted-foreground">
-                    {t(labels[c.status] ?? c.status)} · {c.result_count} {t("empresas")}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </section>
+          <ProspectingSearchForm
+            configured={data?.configured}
+            busy={busy}
+            settings={settings}
+            setSettings={setSettings}
+            onPerform={perform}
+            onSearchSuccess={() => {
+              setSelected(null);
+            }}
+          />
+          <CampaignsList
+            campaigns={data?.campaigns}
+            selectedId={campaign?.id ?? null}
+            onSelect={(id) => {
+              setSelected(id);
+              setNotice(null);
+            }}
+          />
         </aside>
+
         <div className="min-w-0 space-y-5">
           {!campaign && (
             <Card className="flex min-h-80 flex-col items-center justify-center gap-3 p-8 text-center">
@@ -377,78 +180,16 @@ export function ProspectingClient() {
               </p>
             </Card>
           )}
+
           {campaign && (
             <>
-              <Card className="p-5">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div>
-                    <h2 className="text-xl font-semibold">{campaign.name}</h2>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      {t(labels[campaign.search_status] ?? campaign.search_status)}
-                      {campaign.cost_usd !== null
-                        ? ` · US$ ${Number(campaign.cost_usd).toFixed(2)}`
-                        : ""}
-                    </p>
-                  </div>
-                  <Badge variant="outline">{t(labels[campaign.status] ?? campaign.status)}</Badge>
-                </div>
-                {campaign.error && (
-                  <p role="alert" className="mt-4 rounded-md bg-destructive/10 p-3 text-sm">
-                    {campaign.error}
-                  </p>
-                )}
-                <div className="mt-5 grid grid-cols-2 gap-4 md:grid-cols-4">
-                  {[
-                    [t("Encontrados"), candidates.length],
-                    [t("Na fila"), count(["queued", "sending"])],
-                    [t("Responderam"), count(["replied", "qualified"])],
-                    [t("Qualificados"), count(["qualified"])],
-                  ].map(([label, value]) => (
-                    <div key={label}>
-                      <p className="text-2xl font-semibold tabular-nums">{value}</p>
-                      <p className="text-xs text-muted-foreground">{label}</p>
-                    </div>
-                  ))}
-                </div>
-                {campaign.skipped_count > 0 && (
-                  <p className="mt-3 text-xs text-muted-foreground">
-                    {campaign.skipped_count}{" "}
-                    {t("resultados repetidos ou indisponíveis foram desconsiderados.")}
-                  </p>
-                )}
-                {campaign.config && (
-                  <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t pt-4">
-                    <p className="text-sm text-muted-foreground">
-                      {t("Ritmo:")} {campaign.config.daily_limit}{" "}
-                      {t("abordagens em 24 horas, com pelo menos")}{" "}
-                      {campaign.config.interval_minutes} {t("minutos entre elas.")}
-                    </p>
-                    {campaign.status === "running" ? (
-                      <Button
-                        variant="outline"
-                        disabled={busy}
-                        onClick={() =>
-                          perform(
-                            { action: "pause", id: campaign.id },
-                            t("Novas abordagens pausadas."),
-                          )
-                        }
-                      >
-                        {t("Pausar abordagens")}
-                      </Button>
-                    ) : campaign.status === "paused" ? (
-                      <Button
-                        disabled={busy}
-                        onClick={() =>
-                          perform({ action: "resume", id: campaign.id }, t("Campanha retomada."))
-                        }
-                      >
-                        {t("Retomar fila")}
-                      </Button>
-                    ) : null}
-                  </div>
-                )}
-              </Card>
+              <CampaignOverviewCard
+                campaign={campaign}
+                candidates={candidates}
+                busy={busy}
+                onPerform={perform}
+              />
+
               {campaign.status === "draft" &&
                 campaign.search_status === "succeeded" &&
                 candidates.length > 0 && (
@@ -764,85 +505,8 @@ export function ProspectingClient() {
                     )}
                   </Card>
                 )}
-              {candidates.length > 0 && (
-                <Card className="overflow-hidden">
-                  <div className="border-b p-5">
-                    <h2 className="text-lg font-semibold">{t("3. Acompanhar resultados")}</h2>
-                    <p className="text-sm text-muted-foreground">
-                      {t(
-                        "Encontrado é diferente de qualificado. A qualificação depende do que for confirmado na conversa.",
-                      )}
-                    </p>
-                  </div>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left text-sm">
-                      <thead className="border-b bg-muted/30 text-xs text-muted-foreground">
-                        <tr>
-                          <th className="p-4">{t("Empresa")}</th>
-                          <th className="p-4">{t("Informações")}</th>
-                          <th className="p-4">{t("Progresso")}</th>
-                          <th className="p-4">{t("Conversa")}</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {candidates.map((c) => (
-                          <tr key={c.id} className="border-b last:border-0">
-                            <td className="p-4 align-top">
-                              <p className="font-medium">{c.data.name}</p>
-                              <p className="mt-1 text-xs text-muted-foreground">
-                                {c.data.category}
-                              </p>
-                              <p className="mt-1 text-xs">{c.data.phone ?? t("Sem telefone")}</p>
-                            </td>
-                            <td className="max-w-64 p-4 align-top">
-                              <p className="text-xs text-muted-foreground">{c.data.address}</p>
-                              {safePublicLink(c.data.website) && (
-                                <a
-                                  className="mt-1 block underline"
-                                  href={safePublicLink(c.data.website)}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                >
-                                  {t("Site da empresa")}
-                                </a>
-                              )}
-                              <p className="mt-1 text-xs text-muted-foreground">
-                                {c.data.rating ?? "—"} ★ · {c.data.reviews ?? 0} {t("avaliações")}
-                              </p>
-                              {c.data.emails.map((email) => (
-                                <p key={email} className="mt-1 text-xs break-all">
-                                  {email}
-                                </p>
-                              ))}
-                            </td>
-                            <td className="max-w-64 p-4 align-top">
-                              <Badge variant="outline">{t(labels[c.progress] ?? c.progress)}</Badge>
-                              {c.error && (
-                                <p className="mt-2 text-xs text-muted-foreground">{c.error}</p>
-                              )}
-                              {c.message_status && (
-                                <p className="mt-1 text-xs text-muted-foreground">
-                                  {t("Mensagem:")} {c.message_status}
-                                </p>
-                              )}
-                            </td>
-                            <td className="p-4 align-top">
-                              {c.conversation_id && (
-                                <Link
-                                  className="underline"
-                                  href={`/app/inbox?id=${c.conversation_id}`}
-                                >
-                                  {t("Abrir no Inbox")}
-                                </Link>
-                              )}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </Card>
-              )}
+
+              <ProspectingCandidatesTable candidates={candidates} />
             </>
           )}
         </div>
