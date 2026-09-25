@@ -3,7 +3,6 @@ import { marcaEhADoProduto } from "@/lib/branding";
 import { marcaDaSaida } from "@/lib/branding/saida";
 import { createClient } from "@/lib/supabase/server";
 import { IdiomaProvider } from "@/lib/i18n/IdiomaProvider";
-import styles from "./auth.module.css";
 
 export default async function PublicLayout({ children }: { children: React.ReactNode }) {
   const marca = await marcaDaSaida(null);
@@ -15,10 +14,10 @@ export default async function PublicLayout({ children }: { children: React.React
 
   return (
     <IdiomaProvider locale={locale}>
-      <div className={styles.authWrapper}>
-        <div className={styles.authCard}>
+      <div className="flex min-h-screen items-center justify-center bg-background p-4 sm:p-6">
+        <div className="w-full max-w-md space-y-6 rounded-2xl border border-border bg-card p-6 shadow-xl sm:p-8">
           {marca.logoUrl ? (
-            <div className={styles.logoArea}>
+            <div className="flex justify-center">
               <div className="rounded-md dark:bg-white dark:px-3 dark:py-2 dark:shadow-sm">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -30,7 +29,7 @@ export default async function PublicLayout({ children }: { children: React.React
               </div>
             </div>
           ) : marcaEhADoProduto({ name: marca.nome, logoUrl: null }) ? (
-            <div className={styles.logoArea}>
+            <div className="flex justify-center">
               <LogotipoDoProduto nome={marca.nome} className="h-12 w-auto" />
             </div>
           ) : null}
