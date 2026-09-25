@@ -1,0 +1,64 @@
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background-color: var(--card);
+  transition: all 150ms ease;
+  border-bottom: 1px solid var(--border);
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .row {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.nameLink {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nameText {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--foreground);
+  transition: color 150ms ease;
+}
+
+.nameLink:hover .nameText {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.slugText {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  font-family: var(--font-mono, monospace);
+}
+
+.actionsGroup {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
